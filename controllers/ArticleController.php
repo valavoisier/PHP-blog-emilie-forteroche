@@ -15,7 +15,6 @@ class ArticleController
         $view->render("home", ['articles' => $articles]);
     }
 
-
     /**
      * Affiche le détail d'un article.
      * @return void
@@ -28,12 +27,12 @@ class ArticleController
         $articleManager = new ArticleManager();
         $article = $articleManager->getArticleById($id);
         
-        $commentManager = new CommentManager();
-        $comments = $commentManager->getAllCommentsByArticleId($id);
-
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
         }
+
+        $commentManager = new CommentManager();
+        $comments = $commentManager->getAllCommentsByArticleId($id);
 
         $view = new View($article->getTitle());
         $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);
