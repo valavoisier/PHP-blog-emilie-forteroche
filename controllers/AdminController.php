@@ -45,43 +45,43 @@ class AdminController
         }
 
         // Tri des articles
-    usort($articles, function ($a, $b) use ($sort, $order) {
-        switch ($sort) {
-            case "views":
-                $valA = $a->getViews();
-                $valB = $b->getViews();
-                break;
-            case "comments":
-                $valA = $a->getNbComments();
-                $valB = $b->getNbComments();
-                break;
-            case "title":
-                $valA = strtolower($a->getTitle());
-                $valB = strtolower($b->getTitle());
-                break;
-            case "content":
-                $valA = strtolower($a->getContent());
-                $valB = strtolower($b->getContent());
-                break;
-            case "date":
-            default:
-                $valA = $a->getDateCreation()->getTimestamp();
-                $valB = $b->getDateCreation()->getTimestamp();
-                break;
-        }
+        usort($articles, function ($a, $b) use ($sort, $order) {
+            switch ($sort) {
+                case "views":
+                    $valA = $a->getViews();
+                    $valB = $b->getViews();
+                    break;
+                case "comments":
+                    $valA = $a->getNbComments();
+                    $valB = $b->getNbComments();
+                    break;
+                case "title":
+                    $valA = strtolower($a->getTitle());
+                    $valB = strtolower($b->getTitle());
+                    break;
+                case "content":
+                    $valA = strtolower($a->getContent());
+                    $valB = strtolower($b->getContent());
+                    break;
+                case "date":
+                default:
+                    $valA = $a->getDateCreation()->getTimestamp();
+                    $valB = $b->getDateCreation()->getTimestamp();
+                    break;
+            }
 
-        return $order === "ASC" ? $valA <=> $valB : $valB <=> $valA;
-    });
+            return $order === "ASC" ? $valA <=> $valB : $valB <=> $valA;
+        });
 
-    // Préparation des en-têtes
-    $headers = [
-        Utils::getSortHeader("Date", "date", $sort, $order),
-        Utils::getSortHeader("Titre", "title", $sort, $order),
-        Utils::getSortHeader("Contenu", "content", $sort, $order),
-        Utils::getSortHeader("Vues", "views", $sort, $order),
-        Utils::getSortHeader("Commentaires", "comments", $sort, $order)
-        
-    ];
+        // Préparation des en-têtes
+        $headers = [
+            Utils::getSortHeader("Date", "date", $sort, $order),
+            Utils::getSortHeader("Titre", "title", $sort, $order),
+            Utils::getSortHeader("Contenu", "content", $sort, $order),
+            Utils::getSortHeader("Vues", "views", $sort, $order),
+            Utils::getSortHeader("Commentaires", "comments", $sort, $order)
+
+        ];
 
         $view = new View("Dashboard");
         $view->render("dashboard", [
@@ -224,7 +224,6 @@ class AdminController
         Utils::redirect("admin");
     }
 
-
     /**
      * Suppression d'un article.
      * @return void
@@ -238,8 +237,60 @@ class AdminController
         // On supprime l'article.
         $articleManager = new ArticleManager();
         $articleManager->deleteArticle($id);
-
+        Utils::setFlash("Article supprimé avec succès.");
         // On redirige vers la page d'administration.
         Utils::redirect("admin");
+    }
+
+    /**
+     * Affichage de la page de modération des commentaires d'un article.
+     * @return void
+     */
+    public function moderateArticle(): void
+    {
+        $this->checkIfUserIsConnected();
+
+        $articleId = Utils::request("id");
+        $articleManager = new ArticleManager();
+        $commentManager = new CommentManager();
+
+        $article = $articleManager->getArticleById($articleId);
+        $comments = $commentManager->getAllCommentsByArticleId($articleId);
+
+        $view = new View("Modération des commentaires");
+        $view->render("moderateArticle", [
+            'article' => $article,
+            'comments' => $comments
+        ]);
+    }
+    
+    /**
+     * Suppression des commentaires sélectionnés.
+     * @return void
+     */
+    public function deleteComments(): void
+    {
+        $this->checkIfUserIsConnected();
+
+        $selectedIds = Utils::request("selectedComments", []);
+        $articleId = Utils::request("articleId");
+
+        if (!empty($selectedIds)) {
+            $commentManager = new CommentManager();
+            $count = 0;
+
+            foreach ($selectedIds as $commentId) {
+                $comment = $commentManager->getCommentById((int)$commentId);
+                if ($comment && $commentManager->deleteComment($comment)) {
+                    $count++;
+                }
+            }
+
+            Utils::setFlash("$count commentaire(s) supprimé(s) avec succès.");
+        } else {
+            Utils::setFlash("Aucun commentaire sélectionné.");
+        }
+
+        Utils::redirect("moderateArticle", ['id' => $articleId]);
     }
 }

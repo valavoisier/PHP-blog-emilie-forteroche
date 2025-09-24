@@ -79,6 +79,16 @@ try {
             $adminController->deleteArticle();
             break;
 
+        case 'moderateArticle':
+            $adminController = new AdminController();
+            $adminController->moderateArticle();
+            break;
+
+        case 'deleteComments':
+            $adminController = new AdminController();
+            $adminController->deleteComments();
+            break;
+
         default:
             throw new Exception("La page demandée n'existe pas.");
     }

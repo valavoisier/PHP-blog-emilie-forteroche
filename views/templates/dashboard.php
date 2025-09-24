@@ -1,7 +1,10 @@
 <?php
 
 /**
- * Page de test du dashboard.
+ * dashboard avec la liste des articles, 
+ * tri des colonnes par ordre croissant et décroissant par: 
+ * date de création, contenu, nombre de vues, nombre de commentaires 
+ * accès à la visualisation et suppression des commentaires.
  */
 ?>
 
@@ -20,7 +23,7 @@
                     </th>
                 <?php endforeach; ?>
                 <th>Gestion des commentaires</th>
-                
+
             </tr>
         </thead>
         <tbody>
@@ -35,8 +38,9 @@
                     <td class="col-content"><?= $article->getNbComments() ?></td>
 
                     <td>
-                        <a class="submit" href="index.php?action=manageComments&id=<?= $article->getId() ?>">Gérer</a>
+                        <a class="submit" href="index.php?action=moderateArticle&id=<?= $article->getId() ?>">Gérer</a>
                     </td>
+
                 </tr>
 
             <?php } ?>

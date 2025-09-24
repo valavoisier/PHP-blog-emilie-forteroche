@@ -5,13 +5,14 @@
  * directement sans avoir besoin d'instancier un objet Utils.
  * Exemple : Utils::redirect('home'); 
  */
-class Utils {
+class Utils
+{
     /**
      * Convertit une date vers le format de type "Samedi 15 juillet 2023" en francais.
      * @param DateTime $date : la date à convertir.
      * @return string : la date convertie.
      */
-    public static function convertDateToFrenchFormat(DateTime $date) : string
+    public static function convertDateToFrenchFormat(DateTime $date): string
     {
         // Attention, s'il y a un soucis lié à IntlDateFormatter c'est qu'il faut
         // activer l'extention intl_date_formater (ou intl) au niveau du serveur apache. 
@@ -27,7 +28,7 @@ class Utils {
      * @param array $params : Facultatif, les paramètres de l'action sous la forme ['param1' => 'valeur1', 'param2' => 'valeur2']
      * @return void
      */
-    public static function redirect(string $action, array $params = []) : void
+    public static function redirect(string $action, array $params = []): void
     {
         $url = "index.php?action=$action";
         foreach ($params as $paramName => $paramValue) {
@@ -44,7 +45,7 @@ class Utils {
      * @param string $message : le message à afficher dans la popup.
      * @return string : le code js à insérer dans le bouton.
      */
-    public static function askConfirmation(string $message) : string
+    public static function askConfirmation(string $message): string
     {
         return "onclick=\"return confirm('$message');\"";
     }
@@ -55,7 +56,7 @@ class Utils {
      * @param string $string : la chaine à protéger.
      * @return string : la chaine protégée.
      */
-    public static function format(string $string) : string
+    public static function format(string $string): string
     {
         // Etape 1, on protège le texte avec htmlspecialchars.
         $finalString = htmlspecialchars($string, ENT_QUOTES);
@@ -70,7 +71,7 @@ class Utils {
                 $finalString .= "<p>$line</p>";
             }
         }
-        
+
         return $finalString;
     }
 
@@ -82,24 +83,50 @@ class Utils {
      * @param mixed $defaultValue : la valeur par défaut si la variable n'est pas définie.
      * @return mixed : la valeur de la variable ou la valeur par défaut.
      */
-    public static function request(string $variableName, mixed $defaultValue = null) : mixed
+    public static function request(string $variableName, mixed $defaultValue = null): mixed
     {
         return $_REQUEST[$variableName] ?? $defaultValue;
     }
 
     public static function getSortHeader(string $label, string $column, string $currentSort, string $currentOrder): array
-{
-    $nextOrder = ($currentSort === $column && $currentOrder === "ASC") ? "DESC" : "ASC";
-    $isActive = $currentSort === $column;
-    $arrow = $isActive ? ($currentOrder === "ASC" ? "↑" : "↓") : "";
+    {
+        $nextOrder = ($currentSort === $column && $currentOrder === "ASC") ? "DESC" : "ASC";
+        $isActive = $currentSort === $column;
+        $arrow = $isActive ? ($currentOrder === "ASC" ? "↑" : "↓") : "";
 
-    return [
-        'label' => $label,
-        'column' => $column,
-        'nextOrder' => $nextOrder,
-        'arrow' => $arrow
-    ];
-}
+        return [
+            'label' => $label,
+            'column' => $column,
+            'nextOrder' => $nextOrder,
+            'arrow' => $arrow
+        ];
+    }
+    /**
+     * Enregistre un message flash dans la session.
+     * @param string $message : le message à afficher.
+     */
+    public static function setFlash(string $message): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['flash'] = $message;
+    }
 
-
+    /**
+     * Récupère et supprime le message flash de la session.
+     * @return string|null : le message ou null s'il n'existe pas.
+     */
+    public static function getFlash(): ?string
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!empty($_SESSION['flash'])) {
+            $message = $_SESSION['flash'];
+            unset($_SESSION['flash']);
+            return $message;
+        }
+        return null;
+    }
 }
