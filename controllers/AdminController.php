@@ -28,23 +28,67 @@ class AdminController
     }
 
     public function showDashboard(): void
-{
-    $articleManager = new ArticleManager();
-    $commentManager = new CommentManager();
+    {
+        $this->checkIfUserIsConnected();
 
-    $articles = $articleManager->getAllArticles();
+        $sort = Utils::request("sort", "date");
+        $order = Utils::request("order", "DESC");
 
-    foreach ($articles as $article) {
-        $nbComments = $commentManager->countCommentsByArticleId($article->getId());
-        $article->setNbComments($nbComments); // Ajoute une propriété temporaire à l'objet
+        $articleManager = new ArticleManager();
+        $commentManager = new CommentManager();
+
+        $articles = $articleManager->getAllArticles();
+
+        foreach ($articles as $article) {
+            $nbComments = $commentManager->countCommentsByArticleId($article->getId());
+            $article->setNbComments($nbComments);
+        }
+
+        // Tri des articles
+    usort($articles, function ($a, $b) use ($sort, $order) {
+        switch ($sort) {
+            case "views":
+                $valA = $a->getViews();
+                $valB = $b->getViews();
+                break;
+            case "comments":
+                $valA = $a->getNbComments();
+                $valB = $b->getNbComments();
+                break;
+            case "title":
+                $valA = strtolower($a->getTitle());
+                $valB = strtolower($b->getTitle());
+                break;
+            case "content":
+                $valA = strtolower($a->getContent());
+                $valB = strtolower($b->getContent());
+                break;
+            case "date":
+            default:
+                $valA = $a->getDateCreation()->getTimestamp();
+                $valB = $b->getDateCreation()->getTimestamp();
+                break;
+        }
+
+        return $order === "ASC" ? $valA <=> $valB : $valB <=> $valA;
+    });
+
+    // Préparation des en-têtes
+    $headers = [
+        Utils::getSortHeader("Date", "date", $sort, $order),
+        Utils::getSortHeader("Titre", "title", $sort, $order),
+        Utils::getSortHeader("Contenu", "content", $sort, $order),
+        Utils::getSortHeader("Vues", "views", $sort, $order),
+        Utils::getSortHeader("Commentaires", "comments", $sort, $order)
+        
+    ];
+
+        $view = new View("Dashboard");
+        $view->render("dashboard", [
+            'articles' => $articles,
+            'headers' => $headers
+        ]);
     }
-
-    $view = new View("Dashboard");
-    $view->render("dashboard", ['articles' => $articles]);
-}
-
-
-
 
 
     /**

@@ -87,4 +87,19 @@ class Utils {
         return $_REQUEST[$variableName] ?? $defaultValue;
     }
 
+    public static function getSortHeader(string $label, string $column, string $currentSort, string $currentOrder): array
+{
+    $nextOrder = ($currentSort === $column && $currentOrder === "ASC") ? "DESC" : "ASC";
+    $isActive = $currentSort === $column;
+    $arrow = $isActive ? ($currentOrder === "ASC" ? "↑" : "↓") : "";
+
+    return [
+        'label' => $label,
+        'column' => $column,
+        'nextOrder' => $nextOrder,
+        'arrow' => $arrow
+    ];
+}
+
+
 }

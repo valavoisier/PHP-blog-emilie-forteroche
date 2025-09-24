@@ -6,17 +6,21 @@
 ?>
 
 <h2>Monitoring</h2>
+<p class="info-tri">Cliquez sur les en-têtes de colonnes pour trier les articles par ordre croissant et décroissant.</p>
 
 <div class="monitoring">
     <table>
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>Vues</th>
-                <th>Commentaires</th>
-                <th>Date de publication</th>
+                <?php foreach ($headers as $header): ?>
+                    <th>
+                        <a href="index.php?action=dashboard&sort=<?= $header['column'] ?>&order=<?= $header['nextOrder'] ?>">
+                            <?= $header['label'] ?> <?= $header['arrow'] ?>
+                        </a>
+                    </th>
+                <?php endforeach; ?>
                 <th>Gestion des commentaires</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -24,11 +28,12 @@
             <?php foreach ($articles as $article) { ?>
 
                 <tr>
+                    <td><?= date("d/m/Y H:i", $article->getDateCreation()->getTimestamp()) ?></td>
                     <td><?= htmlspecialchars($article->getTitle()) ?></td>
                     <td><?= $article->getContent(200) ?></td>
-                    <td><?= $article->getViews() ?></td>
-                    <td><?= $article->getNbComments() ?></td>
-                    <td><?= date("d/m/Y H:i", $article->getDateCreation()->getTimestamp()) ?></td>
+                    <td class="col-content"><?= $article->getViews() ?></td>
+                    <td class="col-content"><?= $article->getNbComments() ?></td>
+
                     <td>
                         <a class="submit" href="index.php?action=manageComments&id=<?= $article->getId() ?>">Gérer</a>
                     </td>

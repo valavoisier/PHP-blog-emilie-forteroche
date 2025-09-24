@@ -353,7 +353,7 @@ a.info {
 }
 .monitoring th,
 .monitoring td {
-    padding: 20px 15px; /* Padding généreux pour créer l'espace minimum */
+    padding: 20px 15px;    
     text-align: center;
     border: 2px solid var(--backgroundColor);
     color: var(--backgroundColor);
@@ -365,6 +365,15 @@ a.info {
 .monitoring th {  
     background-color: var(--commentColor);
 }
+th a {
+    cursor: pointer;
+    text-decoration: none;   
+    font-weight: bold;
+}
+
+th a:hover {
+    color: var(--headerPaleColor);
+}
 
 /*couleur lignes paires*/
 .monitoring tbody tr:nth-child(even) {
@@ -374,8 +383,11 @@ a.info {
 .monitoring tbody tr:nth-child(odd) {
      background-color: color-mix(in srgb, var(--commentPaleColor) 70%, transparent);
 }
-
-
+.info-tri {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 10px;
+}
 
 /** 
  * Footer global de la page.

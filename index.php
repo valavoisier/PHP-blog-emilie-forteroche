@@ -44,7 +44,7 @@ try {
             $adminController->showAdmin();
             break;
 
-        case 'showDashboard':
+        case 'dashboard':
             $adminController = new AdminController();
             $adminController->showDashboard();
             break;
