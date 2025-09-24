@@ -12,6 +12,7 @@
         <thead>
             <tr>
                 <th>Titre</th>
+                <th>Contenu</th>
                 <th>Vues</th>
                 <th>Commentaires</th>
                 <th>Date de publication</th>
@@ -24,6 +25,7 @@
 
                 <tr>
                     <td><?= htmlspecialchars($article->getTitle()) ?></td>
+                    <td><?= $article->getContent(200) ?></td>
                     <td><?= $article->getViews() ?></td>
                     <td><?= $article->getNbComments() ?></td>
                     <td><?= date("d/m/Y H:i", $article->getDateCreation()->getTimestamp()) ?></td>

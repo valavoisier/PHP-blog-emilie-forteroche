@@ -362,20 +362,15 @@ a.info {
     line-height: 1.4;
 }
 
-.monitoring th {
-    min-width: 200px;    
+.monitoring th {  
     background-color: var(--commentColor);
 }
 
-.monitoring td {
-    min-width: 200px;    
-   /* background-color: var(--commentPaleColor);*/
-}
 /*couleur lignes paires*/
 .monitoring tbody tr:nth-child(even) {
     background-color: var(--commentPaleColor);
 }
-/*couleurlignes impaires*/
+/*couleur lignes impaires*/
 .monitoring tbody tr:nth-child(odd) {
      background-color: color-mix(in srgb, var(--commentPaleColor) 70%, transparent);
 }
