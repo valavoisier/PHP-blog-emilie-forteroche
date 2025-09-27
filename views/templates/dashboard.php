@@ -49,4 +49,4 @@
     </table>
 </div>
 
-<h2>Edition des articles: <a class="submit" href="index.php?action=admin">Gérer</a></h2>
+<a class="submit" href="index.php?action=admin">Édition des articles</a>

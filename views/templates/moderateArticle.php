@@ -8,7 +8,7 @@
 <?php endif; ?>
 <h2>Commentaires de l’article : <?= Utils::format($article->getTitle()) ?></h2>
 
-<form class="monitoring" method="post" action="index.php?action=deleteComments">
+<form class="monitoring background-none" method="post" action="index.php?action=deleteComments">
     <input type="hidden" name="articleId" value="<?= $article->getId() ?>">
 
     <table>
@@ -40,4 +40,3 @@
 
     </div>
 </form>
-<h2>Monitoring: <a class="submit" href="index.php?action=dashboard">Gérer</a></h2>

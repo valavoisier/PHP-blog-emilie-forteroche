@@ -313,8 +313,7 @@ a.info {
  */
 
 .adminArticle {
-    margin-bottom: 20px;
-    background-color: var(--commentPaleColor);
+    margin-bottom: 20px;    
     color: white;
 }
 
@@ -345,11 +344,15 @@ a.info {
 /** 
  * Monitoring
  */
+ .background-none {
+    background-color:var(--backgroundColor);
+}
 .monitoring table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
 }
 .monitoring th,
 .monitoring td {
@@ -376,11 +379,11 @@ th a:hover {
 }
 
 /*couleur lignes paires*/
-.monitoring tbody tr:nth-child(even) {
+.monitoring tbody tr:nth-child(even), .adminArticle .articleLine:nth-child(even) {
     background-color: var(--commentPaleColor);
 }
 /*couleur lignes impaires*/
-.monitoring tbody tr:nth-child(odd) {
+.monitoring tbody tr:nth-child(odd), .adminArticle .articleLine:nth-child(odd) {
      background-color: color-mix(in srgb, var(--commentPaleColor) 70%, transparent);
 }
 .info-tri {

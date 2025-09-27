@@ -1,6 +1,6 @@
 <?php
 
-class ArticleController
+class ArticleController extends AbstractController
 {
     /**
      * Affiche la page d'accueil.
@@ -11,8 +11,7 @@ class ArticleController
         $articleManager = new ArticleManager();
         $articles = $articleManager->getAllArticles();
 
-        $view = new View("Accueil");
-        $view->render("home", ['articles' => $articles]);
+        $this->renderView("Accueil", "home", ['articles' => $articles]);
     }
 
     /**
@@ -51,8 +50,10 @@ class ArticleController
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
-        $view = new View($article->getTitle());
-        $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);
+        $this->renderView($article->getTitle(), "detailArticle", [
+            'article' => $article,
+            'comments' => $comments
+        ]);
     }
 
     /**
@@ -61,8 +62,7 @@ class ArticleController
      */
     public function addArticle(): void
     {
-        $view = new View("Ajouter un article");
-        $view->render("addArticle");
+        $this->renderView("Ajouter un article", "addArticle", []);
     }
 
     /**
@@ -71,7 +71,6 @@ class ArticleController
      */
     public function showApropos()
     {
-        $view = new View("A propos");
-        $view->render("apropos");
+        $this->renderView("A propos", "apropos", []);
     }
 }

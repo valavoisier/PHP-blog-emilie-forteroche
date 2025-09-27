@@ -4,7 +4,7 @@
  * Contrôleur de la partie admin.
  */
 
-class AdminController
+class AdminController extends AbstractController
 {
 
     /**
@@ -21,8 +21,7 @@ class AdminController
         $articles = $articleManager->getAllArticles();
 
         // On affiche la page d'administration.
-        $view = new View("Administration");
-        $view->render("admin", [
+        $this->renderView("Administration", "admin", [
             'articles' => $articles
         ]);
     }
@@ -82,26 +81,14 @@ class AdminController
             Utils::getSortHeader("Commentaires", "comments", $sort, $order)
 
         ];
-
-        $view = new View("Dashboard");
-        $view->render("dashboard", [
+        $this->renderView("Tableau de bord", "dashboard", [
             'articles' => $articles,
             'headers' => $headers
         ]);
     }
 
 
-    /**
-     * Vérifie que l'utilisateur est connecté.
-     * @return void
-     */
-    private function checkIfUserIsConnected(): void
-    {
-        // On vérifie que l'utilisateur est connecté.
-        if (!isset($_SESSION['user'])) {
-            Utils::redirect("connectionForm");
-        }
-    }
+
 
     /**
      * Affichage du formulaire de connexion.
@@ -109,8 +96,7 @@ class AdminController
      */
     public function displayConnectionForm(): void
     {
-        $view = new View("Connexion");
-        $view->render("connectionForm");
+        $this->renderView("Connexion", "connectionForm", []);
     }
 
     /**
@@ -183,8 +169,7 @@ class AdminController
         }
 
         // On affiche la page de modification de l'article.
-        $view = new View("Edition d'un article");
-        $view->render("updateArticleForm", [
+        $this->renderView("Edition d'un article", "updateArticleForm", [
             'article' => $article
         ]);
     }
@@ -263,7 +248,7 @@ class AdminController
             'comments' => $comments
         ]);
     }
-    
+
     /**
      * Suppression des commentaires sélectionnés.
      * @return void
