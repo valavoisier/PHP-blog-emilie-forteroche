@@ -25,25 +25,30 @@ class AdminController extends AbstractController
             'articles' => $articles
         ]);
     }
-
+    /*------------------Monitoring------------------*/
+    /**
+     * Affiche la page de monitoring.
+     * @return void
+     */
     public function showDashboard(): void
     {
+        // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
-
-        $sort = Utils::request("sort", "date");
-        $order = Utils::request("order", "DESC");
+        // On récupère les paramètres de tri
+        $sort = Utils::request("sort", "date"); // Colonne à trier (défaut: date)
+        $order = Utils::request("order", "DESC");// Ordre ASC/DESC (défaut: DESC)
 
         $articleManager = new ArticleManager();
         $commentManager = new CommentManager();
 
         $articles = $articleManager->getAllArticles();
-
+        // Pour chaque article, on ajoute le nombre de commentaires
         foreach ($articles as $article) {
             $nbComments = $commentManager->countCommentsByArticleId($article->getId());
             $article->setNbComments($nbComments);
         }
-
-        // Tri des articles
+        // On récupère les articles triés
+        // Tri des articles avec usort()
         usort($articles, function ($a, $b) use ($sort, $order) {
             switch ($sort) {
                 case "views":
@@ -81,6 +86,9 @@ class AdminController extends AbstractController
             Utils::getSortHeader("Commentaires", "comments", $sort, $order)
 
         ];
+        //hérite de la méthode renderView() de AbstractController.php
+        //approche suivant le principe DRY (Don't Repeat Yourself) et maintenant une structure cohérente pour l'affichage des vues.
+        //pour afficher la vue dashboard.php avec le layout dashboard.php
         $this->renderView("Tableau de bord", "dashboard", [
             'articles' => $articles,
             'headers' => $headers
@@ -242,11 +250,12 @@ class AdminController extends AbstractController
         $article = $articleManager->getArticleById($articleId);
         $comments = $commentManager->getAllCommentsByArticleId($articleId);
 
-        $view = new View("Modération des commentaires");
-        $view->render("moderateArticle", [
+
+        $this->renderView("Modération des commentaires", "moderateArticle", [
             'article' => $article,
             'comments' => $comments
         ]);
+       
     }
 
     /**

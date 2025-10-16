@@ -6,13 +6,8 @@ class AbstractController
      * Si ce n'est pas le cas, redirige vers la page de connexion.
      * @return void
      */
-    protected function checkIfUserIsConnected(): void
+    public function checkIfUserIsConnected(): void
     {
-        // Démarrage de la session si ce n’est pas déjà fait
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if (!isset($_SESSION['user'])) {
              Utils::redirect("connectionForm");
         }
@@ -20,14 +15,17 @@ class AbstractController
 
     /**
      * Méthode pour rendre une vue avec un layout spécifique.
-     * @param string $viewName : le nom de la vue à rendre.
-     * @param string $viewLayout : le layout à utiliser.
-     * @param array $data : les données à passer à la vue.
+     * centralise la logique de rendu des vues.Evite la répétition de code dans les controllers enfants (AdminController.php et ArticleController.php))
+     * @param string $viewName : le nom du fichier de vue à charger (à rendre).
+     * @param string $viewLayout : : le layout (template principal) à utiliser
+     * @param array $data : un tableau de données optionnel à passer à la vue
      * @return void
      */
-    protected function renderView(string $viewName, string $viewLayout, array $data = []): void
+    public function renderView(string $viewName, string $viewLayout, array $data = []): void
     {
         $view = new View($viewName);
+        // Appelle la méthode render de la classe View       
+        // Passe le layout et les données à afficher
         $view->render($viewLayout, $data);
     }
 }

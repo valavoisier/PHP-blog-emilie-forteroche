@@ -19,16 +19,12 @@ class ArticleController extends AbstractController
      * @return void
      */
     public function showArticle(): void
-    {
-        // Démarrage de la session si ce n’est pas déjà fait
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        // Récupération de l'id de l'article demandé.
+    {     
+        // Récupération de l'id de l'article demandé (avant incrémentation des vues).
         $id = Utils::request("id", -1);
 
         $articleManager = new ArticleManager();
-
+/* -----------------------Nombre de vues--------------------------*/ 
         // Initialiser la liste des articles vus si elle n'existe pas
         if (!isset($_SESSION['viewed_articles'])) {
             $_SESSION['viewed_articles'] = [];
@@ -40,6 +36,7 @@ class ArticleController extends AbstractController
             $articleManager->incrementViews($id);
             $_SESSION['viewed_articles'][] = $id;
         }
+/* -----------------------fin Nombre de vues--------------------------*/ 
         $article = $articleManager->getArticleById($id);
 
         if (!$article) {
@@ -49,7 +46,10 @@ class ArticleController extends AbstractController
 
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
-
+        
+        //hérite de la méthode renderView() de AbstractController.php
+        //approche suivant le principe DRY (Don't Repeat Yourself) et maintenant une structure cohérente pour l'affichage des vues.
+        //pour afficher la vue detailArticle.php avec le layout detailArticle.php
         $this->renderView($article->getTitle(), "detailArticle", [
             'article' => $article,
             'comments' => $comments

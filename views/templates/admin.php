@@ -4,7 +4,9 @@
      * Et un formulaire pour ajouter un article. 
      */
 ?>
-
+<?php if ($flash = Utils::getFlash()): ?>
+    <div class="flash-message"><?= htmlspecialchars($flash) ?></div>
+<?php endif; ?>
 <h2>Edition des articles</h2>
 
 <div class="adminArticle">

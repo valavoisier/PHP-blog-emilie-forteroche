@@ -43,12 +43,12 @@ try {
             $adminController = new AdminController();
             $adminController->showAdmin();
             break;
-
+        /*------------------------------Page Monitoring---------------------------------*/
         case 'dashboard':
             $adminController = new AdminController();
             $adminController->showDashboard();
             break;
-
+        /*------------------------------------------------------------------------------*/
         case 'connectionForm':
             $adminController = new AdminController();
             $adminController->displayConnectionForm();
@@ -78,17 +78,17 @@ try {
             $adminController = new AdminController();
             $adminController->deleteArticle();
             break;
-
+        /*------Afficher et séléctionner les commentaires d'un article spécifique.--------*/
         case 'moderateArticle':
             $adminController = new AdminController();
             $adminController->moderateArticle();
             break;
-
+        /*------------------------Suppression Commentaires (Action)-----------------------*/
         case 'deleteComments':
             $adminController = new AdminController();
             $adminController->deleteComments();
             break;
-
+        /*--------------------------------------------------------------------------------*/
         default:
             throw new Exception("La page demandée n'existe pas.");
     }

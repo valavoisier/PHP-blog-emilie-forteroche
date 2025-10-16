@@ -87,7 +87,15 @@ class Utils
     {
         return $_REQUEST[$variableName] ?? $defaultValue;
     }
-
+    /*--------------------------------Tri du Tableau------------------------------*/
+     /**
+     * Génère les informations nécessaires pour créer un en-tête de colonne triable.
+     * @param string $label : le label à afficher dans l'en-tête.
+     * @param string $column : le nom de la colonne dans la base de données.
+     * @param string $currentSort : la colonne actuellement utilisée pour le tri.
+     * @param string $currentOrder : l'ordre actuel (ASC ou DESC).
+     * @return array : un tableau contenant les informations pour l'en-tête.
+     */
     public static function getSortHeader(string $label, string $column, string $currentSort, string $currentOrder): array
     {
         $nextOrder = ($currentSort === $column && $currentOrder === "ASC") ? "DESC" : "ASC";
@@ -101,6 +109,7 @@ class Utils
             'arrow' => $arrow
         ];
     }
+    /*----------Messages Flash Suppression Articles et Commentaires------------------*/
     /**
      * Enregistre un message flash dans la session.
      * @param string $message : le message à afficher.

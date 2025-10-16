@@ -111,12 +111,11 @@ class Article extends AbstractEntity
      * @param string $format : le format pour la convertion de la date si elle est une string.
      * Par défaut, c'est le format de date mysql qui est utilisé.
      */
+    /*----------------CORRECTION ERREUR FATALE AJOUT NOUVEL ARTICLE----------------*/
+    //initialisation explicite de la variable à null pour éviter les erreurs de type
     public function setDateUpdate(string|DateTime|null $dateUpdate, string $format = 'Y-m-d H:i:s'): void
     {
-         if ($dateUpdate === null) {
-        $this->dateUpdate = null;
-        return;
-        }
+       
         if (is_string($dateUpdate)) {
             $dateUpdate = DateTime::createFromFormat($format, $dateUpdate);
         }
@@ -133,9 +132,9 @@ class Article extends AbstractEntity
     {
         return $this->dateUpdate;
     }
-
+/*-----------------Vues-----------------------*/
     /**
-     * Setter pour le nombre de vues.
+     * Mutateur pour récupérer le nombre de vues.
      * @param int $views
      */
     public function setViews(int $views): void
@@ -144,13 +143,14 @@ class Article extends AbstractEntity
     }
 
     /**
-     * Getter pour le nombre de vues.
+     * Accesseur pour le nombre de vues.
      * @return int
      */
     public function getViews(): int
     {
         return $this->views;
     }
+/*------------------------------------------------------*/ 
     /**
      * Setter pour le nombre de commentaires.
      * @param int $nbComments
