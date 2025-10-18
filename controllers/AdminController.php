@@ -16,10 +16,9 @@ class AdminController extends AbstractController
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
 
-        // On récupère les articles.
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
-
+        // On récupère les articles pour la vue.
+        $articles = $this->getArticlesForView();
+    /*-----------------renderView(); méthode-----------------*/
         // On affiche la page d'administration.
         $this->renderView("Administration", "admin", [
             'articles' => $articles
@@ -32,16 +31,15 @@ class AdminController extends AbstractController
      */
     public function showDashboard(): void
     {
-        // On vérifie que l'utilisateur est connecté.
+        // Vérification: Si l'utilisateur n'est pas connecté on renvoie vers le formulaire de connexion
         $this->checkIfUserIsConnected();
         // On récupère les paramètres de tri
         $sort = Utils::request("sort", "date"); // Colonne à trier (défaut: date)
         $order = Utils::request("order", "DESC");// Ordre ASC/DESC (défaut: DESC)
 
-        $articleManager = new ArticleManager();
         $commentManager = new CommentManager();
 
-        $articles = $articleManager->getAllArticles();
+        $articles = $this->getArticlesForView();
         // Pour chaque article, on ajoute le nombre de commentaires
         foreach ($articles as $article) {
             $nbComments = $commentManager->countCommentsByArticleId($article->getId());
@@ -62,11 +60,7 @@ class AdminController extends AbstractController
                 case "title":
                     $valA = strtolower($a->getTitle());
                     $valB = strtolower($b->getTitle());
-                    break;
-                case "content":
-                    $valA = strtolower($a->getContent());
-                    $valB = strtolower($b->getContent());
-                    break;
+                    break;               
                 case "date":
                 default:
                     $valA = $a->getDateCreation()->getTimestamp();
@@ -81,7 +75,6 @@ class AdminController extends AbstractController
         $headers = [
             Utils::getSortHeader("Date", "date", $sort, $order),
             Utils::getSortHeader("Titre", "title", $sort, $order),
-            Utils::getSortHeader("Contenu", "content", $sort, $order),
             Utils::getSortHeader("Vues", "views", $sort, $order),
             Utils::getSortHeader("Commentaires", "comments", $sort, $order)
 

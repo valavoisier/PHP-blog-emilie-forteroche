@@ -8,8 +8,7 @@ class ArticleController extends AbstractController
      */
     public function showHome(): void
     {
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $articles = $this->getArticlesForView();
 
         $this->renderView("Accueil", "home", ['articles' => $articles]);
     }

@@ -363,6 +363,7 @@ a.info {
     vertical-align: middle;
     word-wrap: break-word;
     line-height: 1.4;
+    min-width: 200px;
 }
 
 .monitoring th {  

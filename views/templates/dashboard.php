@@ -32,8 +32,7 @@
 
                 <tr>
                     <td><?= date("d/m/Y H:i", $article->getDateCreation()->getTimestamp()) ?></td>
-                    <td><?= htmlspecialchars($article->getTitle()) ?></td>
-                    <td><?= $article->getContent(200) ?></td>
+                    <td><?= htmlspecialchars($article->getTitle()) ?></td>                   
                     <td class="col-content"><?= $article->getViews() ?></td>
                     <td class="col-content"><?= $article->getNbComments() ?></td>
 
