@@ -342,7 +342,7 @@ a.info {
 }
 
 /** 
- * Monitoring
+ * ------------------------PageMonitoring------------------------
  */
  .background-none {
     background-color:var(--backgroundColor);
@@ -379,11 +379,11 @@ th a:hover {
     color: var(--headerPaleColor);
 }
 
-/*couleur lignes paires*/
+/*couleur lignes paires pour pages monitoring et administration*/
 .monitoring tbody tr:nth-child(even), .adminArticle .articleLine:nth-child(even) {
     background-color: var(--commentPaleColor);
 }
-/*couleur lignes impaires*/
+/*couleur lignes impaires pour pages monitoring et administration*/
 .monitoring tbody tr:nth-child(odd), .adminArticle .articleLine:nth-child(odd) {
      background-color: color-mix(in srgb, var(--commentPaleColor) 70%, transparent);
 }
@@ -392,6 +392,7 @@ th a:hover {
     color: #555;
     margin-bottom: 10px;
 }
+/*-----------------------Message Flash--------------------------*/
 .flash-message {
     background-color: var(--backgroundColor);
     border: 1px solid var(--commentColor);

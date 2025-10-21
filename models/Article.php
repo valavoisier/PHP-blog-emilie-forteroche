@@ -11,6 +11,7 @@ class Article extends AbstractEntity
     private string $content = "";
     private ?DateTime $dateCreation = null;
     private ?DateTime $dateUpdate = null;
+    //--------attributs pour le nombre de vues et de commentaires--------
     private int $views = 0;
     private int $nbComments = 0;
 
@@ -132,7 +133,7 @@ class Article extends AbstractEntity
     {
         return $this->dateUpdate;
     }
-/*-----------------Vues-----------------------*/
+/*----------------------------------------Vues-----------------------------------*/
     /**
      * Mutateur pour récupérer le nombre de vues.
      * @param int $views
@@ -150,7 +151,7 @@ class Article extends AbstractEntity
     {
         return $this->views;
     }
-/*------------------------------------------------------*/ 
+/*---------------------------------Commentaires-------------------------------*/ 
     /**
      * Setter pour le nombre de commentaires.
      * @param int $nbComments

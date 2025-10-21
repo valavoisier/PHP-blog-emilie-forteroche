@@ -98,10 +98,14 @@ class Utils
      */
     public static function getSortHeader(string $label, string $column, string $currentSort, string $currentOrder): array
     {
+        // Détermine le prochain ordre de tri
         $nextOrder = ($currentSort === $column && $currentOrder === "ASC") ? "DESC" : "ASC";
+        // Détermine si cette colonne est actuellement triée/active
         $isActive = $currentSort === $column;
-        $arrow = $isActive ? ($currentOrder === "ASC" ? "↑" : "↓") : "";
+        // Détermine la flèche à afficher
+        $arrow = $isActive ? ($currentOrder === "ASC" ? "🡱" : "🡳") : "";
 
+        // Retourne les informations pour la vue sous forme de tableau
         return [
             'label' => $label,
             'column' => $column,
@@ -109,7 +113,7 @@ class Utils
             'arrow' => $arrow
         ];
     }
-    /*----------Messages Flash Suppression Articles et Commentaires------------------*/
+    /*---------------Messages Flash Suppression Articles et Commentaires------------------*/
     /**
      * Enregistre un message flash dans la session.
      * @param string $message : le message à afficher.

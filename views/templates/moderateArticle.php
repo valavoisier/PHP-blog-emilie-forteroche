@@ -1,6 +1,6 @@
 <?php 
     /** 
-     * page de modération des commentaires d'un article.. 
+     * page de modération des commentaires d'un article/ tableau choix multiples. 
      */
 ?>
 <?php if ($flash = Utils::getFlash()): ?>

@@ -1,8 +1,9 @@
 <?php
 
 /**
- * dashboard avec la liste des articles, 
- * tri des colonnes par ordre croissant et décroissant par: 
+ * interface de gestion centralisée
+ * page monitoring pour visualiser tous les articles avec leurs statistiques, 
+ * tri dynamique  par différents critères par ordre croissant et décroissant par: 
  * date de création, contenu, nombre de vues, nombre de commentaires 
  * accès à la visualisation et suppression des commentaires.
  */

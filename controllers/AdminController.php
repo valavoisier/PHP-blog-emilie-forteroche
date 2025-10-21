@@ -32,7 +32,7 @@ class AdminController extends AbstractController
     public function showDashboard(): void
     {
         // Vérification: Si l'utilisateur n'est pas connecté on renvoie vers le formulaire de connexion
-        $this->checkIfUserIsConnected();
+        $this->checkIfUserIsConnected(); //hérité de AbstractController.php
         // On récupère les paramètres de tri
         $sort = Utils::request("sort", "date"); // Colonne à trier (défaut: date)
         $order = Utils::request("order", "DESC");// Ordre ASC/DESC (défaut: DESC)
@@ -223,12 +223,14 @@ class AdminController extends AbstractController
         // On supprime l'article.
         $articleManager = new ArticleManager();
         $articleManager->deleteArticle($id);
+        /*-------------------------Message Flash--------------------------*/
         Utils::setFlash("Article supprimé avec succès.");
         // On redirige vers la page d'administration.
         Utils::redirect("admin");
     }
 
     /**
+     * ------------------------Modération des Commentaires--------------------------
      * Affichage de la page de modération des commentaires d'un article.
      * @return void
      */
@@ -252,7 +254,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Suppression des commentaires sélectionnés.
+     *------------------- Suppression des Commentaires Sélectionnés.----------- 
      * @return void
      */
     public function deleteComments(): void

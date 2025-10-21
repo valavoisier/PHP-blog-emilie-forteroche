@@ -67,7 +67,7 @@ class CommentManager extends AbstractEntityManager
     }
 
     /**
-     * Compte le nombre de commentaires pour un article donné.
+     * ---------------------Compte le nombre de commentaires pour un article donné.----------------------------------------
      * @param int $idArticle : l'id de l'article.
      * @return int : le nombre total de commentaires.
      */
