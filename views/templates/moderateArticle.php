@@ -9,6 +9,7 @@
 <h2>Commentaires de l’article : <?= Utils::format($article->getTitle()) ?></h2>
 
 <form class="monitoring background-none" method="post" action="index.php?action=deleteComments">
+    <!--type hidden permet de définir l'id de l'article sans la passer dans l'URL /sécurité /appartenance des commentaires d'un article spécifique-->
     <input type="hidden" name="articleId" value="<?= $article->getId() ?>">
 
     <table>
